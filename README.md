@@ -16,6 +16,8 @@ This repo currently ships a minimal Rust skeleton:
 - typed config from environment
 - local `/healthz` endpoint
 - explicit OpenClaw and AgentSecrets wiring
+- session launch planning for OpenClaw
+- secret approval planning for AgentSecrets
 
 ## Scope
 
@@ -25,6 +27,7 @@ AgentShell should:
 - expose safe defaults and per-project profiles
 - plug into AgentSecrets for secret-dependent actions
 - stay usable across OpenClaw setups, not just one app
+- generate request plans for session launch and secret approval
 
 ## Non-goals
 

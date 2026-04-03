@@ -9,6 +9,14 @@ It is intentionally thin:
 
 This repo is the start of a separate project, not a Mission Control subfolder.
 
+## Current State
+
+This repo currently ships a minimal Rust skeleton:
+- CLI entrypoint
+- typed config from environment
+- local `/healthz` endpoint
+- explicit OpenClaw and AgentSecrets wiring
+
 ## Scope
 
 AgentShell should:

@@ -18,6 +18,7 @@ This repo currently ships a minimal Rust skeleton:
 - explicit OpenClaw and AgentSecrets wiring
 - session launch planning for OpenClaw
 - secret approval planning for AgentSecrets
+- HTTP dispatch clients for OpenClaw and AgentSecrets
 
 ## Scope
 
@@ -28,6 +29,7 @@ AgentShell should:
 - plug into AgentSecrets for secret-dependent actions
 - stay usable across OpenClaw setups, not just one app
 - generate request plans for session launch and secret approval
+- dispatch those plans over HTTP when asked
 
 ## Non-goals
 

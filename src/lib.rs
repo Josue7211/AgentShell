@@ -1,4 +1,5 @@
 pub mod app;
+pub mod clients;
 pub mod config;
 pub mod contracts;
 pub mod state;

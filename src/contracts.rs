@@ -13,6 +13,7 @@ pub struct OpenClawSessionRequest {
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub struct OpenClawSessionPlan {
     pub openclaw_url: String,
+    pub openclaw_launch_path: String,
     pub request: OpenClawSessionRequest,
 }
 
@@ -29,6 +30,7 @@ pub struct SecretApprovalRequest {
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub struct SecretApprovalPlan {
     pub agentsecrets_url: String,
+    pub agentsecrets_approval_path: String,
     pub request: SecretApprovalRequest,
 }
 
@@ -96,6 +98,23 @@ mod tests {
     }
 
     #[test]
+    fn validates_session_plan_paths() {
+        let plan = OpenClawSessionPlan {
+            openclaw_url: "http://127.0.0.1:3000".into(),
+            openclaw_launch_path: "/v1/sessions".into(),
+            request: OpenClawSessionRequest {
+                project: "mission-control".into(),
+                objective: "Do useful work".into(),
+                profile: "default".into(),
+                workspace: None,
+                command: None,
+                needs_secrets: false,
+            },
+        };
+        assert_eq!(plan.openclaw_launch_path, "/v1/sessions");
+    }
+
+    #[test]
     fn validates_approval_request() {
         let request = SecretApprovalRequest {
             session_id: "sess_123".into(),
@@ -106,5 +125,22 @@ mod tests {
             ttl_seconds: 300,
         };
         assert!(request.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_approval_plan_paths() {
+        let plan = SecretApprovalPlan {
+            agentsecrets_url: "http://127.0.0.1:8080".into(),
+            agentsecrets_approval_path: "/v1/approvals".into(),
+            request: SecretApprovalRequest {
+                session_id: "sess_123".into(),
+                secret_ref: "bw://login/github".into(),
+                action: "read".into(),
+                target: "github".into(),
+                reason: "CI deploy".into(),
+                ttl_seconds: 300,
+            },
+        };
+        assert_eq!(plan.agentsecrets_approval_path, "/v1/approvals");
     }
 }

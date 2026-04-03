@@ -23,6 +23,7 @@ impl WorkflowPlanner {
 
         Ok(OpenClawSessionPlan {
             openclaw_url: self.config.openclaw.url.clone(),
+            openclaw_launch_path: self.config.openclaw.launch_path.clone(),
             request,
         })
     }
@@ -35,6 +36,7 @@ impl WorkflowPlanner {
 
         Ok(SecretApprovalPlan {
             agentsecrets_url: self.config.secrets.url.clone(),
+            agentsecrets_approval_path: self.config.secrets.approval_path.clone(),
             request,
         })
     }

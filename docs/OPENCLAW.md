@@ -9,5 +9,6 @@ Expected integration points:
 - sub-agent launch and control
 - host/backend routing
 - hooks and plugin registration
+- session launch dispatch
 
 AgentShell should only add orchestration and UX around those surfaces.

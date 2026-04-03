@@ -50,6 +50,34 @@ enum Commands {
         #[arg(long, default_value_t = 300)]
         ttl_seconds: u64,
     },
+    /// Dispatch an OpenClaw session launch request.
+    DispatchSession {
+        #[arg(long)]
+        project: String,
+        #[arg(long)]
+        objective: String,
+        #[arg(long)]
+        command: Option<String>,
+        #[arg(long)]
+        workspace: Option<String>,
+        #[arg(long)]
+        needs_secrets: bool,
+    },
+    /// Dispatch a secret approval request to AgentSecrets.
+    DispatchApproval {
+        #[arg(long)]
+        session_id: String,
+        #[arg(long)]
+        secret_ref: String,
+        #[arg(long)]
+        action: String,
+        #[arg(long)]
+        target: String,
+        #[arg(long)]
+        reason: String,
+        #[arg(long, default_value_t = 300)]
+        ttl_seconds: u64,
+    },
     /// Run the local host service.
     Serve,
 }
@@ -99,6 +127,47 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 ttl_seconds,
             })?;
             println!("{}", serde_json::to_string_pretty(&plan)?);
+        }
+        Commands::DispatchSession {
+            project,
+            objective,
+            command,
+            workspace,
+            needs_secrets,
+        } => {
+            let app = agent_shell::AgentShellApp::new(config);
+            let response = app
+                .dispatch_openclaw_session(OpenClawSessionRequest {
+                    project,
+                    objective,
+                    profile: app.config().profile.clone(),
+                    workspace,
+                    command,
+                    needs_secrets,
+                })
+                .await?;
+            println!("{}", serde_json::to_string_pretty(&response)?);
+        }
+        Commands::DispatchApproval {
+            session_id,
+            secret_ref,
+            action,
+            target,
+            reason,
+            ttl_seconds,
+        } => {
+            let app = agent_shell::AgentShellApp::new(config);
+            let response = app
+                .dispatch_secret_approval(SecretApprovalRequest {
+                    session_id,
+                    secret_ref,
+                    action,
+                    target,
+                    reason,
+                    ttl_seconds,
+                })
+                .await?;
+            println!("{}", serde_json::to_string_pretty(&response)?);
         }
         Commands::Serve => {
             let addr: SocketAddr = config.bind_addr.parse()?;

@@ -2,7 +2,7 @@
 name = "agent-shell"
 version = "0.1.0"
 edition = "2021"
-license = "Apache-2.0"
+license = "AGPL-3.0-or-later"
 description = "AgentShell: thin Rust host layer for OpenClaw-based agent setups"
 repository = "https://github.com/Josue7211/AgentShell"
 
